@@ -1,0 +1,13 @@
+bibentry(bibtype = "Manual",
+         key = "pauvert_maldipickr_2023",
+         title = "maldipickr: Dereplicate And Cherry-pick Mass Spectrometry Spectra in R",
+         author = c(person(given = "Charlie",
+                           family = "Pauvert"),
+                    person(given = "David",
+                           family = "Wylensek"),
+                    person(given = "Selina",
+                           family = "Nüchtern"),
+                    person(given = "Thomas",
+                           family = "Clavel")),
+         year = "2023",
+         note = "https://clavellab.github.io/maldipickr, https://github.com/ClavelLab/maldipickr")
