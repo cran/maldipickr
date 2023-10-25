@@ -425,7 +425,7 @@ high-throughput analyses.</p>
 <span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a>processed<span class="sc">$</span>metadata</span>
 <span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 3</span></span>
 <span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a><span class="co">#&gt;   name           SNR peaks</span></span>
-<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;        &lt;dbl&gt; &lt;int&gt;</span></span>
 <span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a><span class="co">#&gt; 1 species1_G2   5.09    21</span></span>
 <span id="cb2-37"><a href="#cb2-37" tabindex="-1"></a><span class="co">#&gt; 2 species2_E11  5.54    22</span></span>
 <span id="cb2-38"><a href="#cb2-38" tabindex="-1"></a><span class="co">#&gt; 3 species2_E12  5.63    23</span></span>
@@ -522,20 +522,22 @@ a dedicated function must be used.</p>
 <div id="similarity-to-clusters" class="section level3">
 <h3>Similarity to clusters</h3>
 <p>When the similarity matrix is computed between all pairs of the
-studied spectra, the next step is to delineate clusters of spectra to
-dereplicate the measured bacterial colonies.</p>
+studied spectra, the next step is to delineate clusters of spectra in
+order to dereplicate the measured bacterial colonies, that is to find
+which are nearly identical colonies.</p>
 <p>The <a href="https://clavellab.github.io/maldipickr/reference/delineate_with_similarity.html"><code>delineate_with_similarity()</code></a>
-is agnostic of the similarity metric used, whether it is the cosine
-metric or the Pearson product moment, provided that a numeric threshold
-relevant to the metric used is given, and <em>above which</em> two
-spectra would be considered similar.</p>
-<p>Indeed, the matrix is essentially an adjacency network, where nodes
-are spectra and links exist between spectra only if the similarity
-between the spectra is <strong>above</strong> (or <strong>equal
-to</strong>) the threshold. This representation allows to infer the
-clusters easily. A table summarizes for each spectra, to which cluster
-number it was assigned to and the size of the cluster, which is the
-total number of spectra in the cluster.</p>
+is agnostic of the similarity metric used provided that the upper bound
+is one and that a numeric threshold relevant to the metric used is
+given. We recommend the cosine metric or the Pearson product moment.</p>
+<p>Hierarchical clustering will then group spectra in the same cluster
+only if the similarity between the spectra is <strong>above</strong> (or
+<strong>equal to</strong>) the provided threshold. The default and
+recommended method is the <em>complete linkage</em>, also known as the
+farthest neighbor, to ensure that the within-group minimum similarity of
+each cluster respects the threshold.</p>
+<p>Finally, a table summarizes for each spectra, to which cluster number
+it was assigned to and the size of the cluster, which is the total
+number of spectra in the cluster.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Toy similarity matrix between the six example spectra of</span></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#  three species. The cosine metric is used and a value of</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#  zero indicates dissimilar spectra and a value of one</span></span>
@@ -632,7 +634,7 @@ corresponding spectrum is representative of the cluster.</p>
 <span id="cb6-44"><a href="#cb6-44" tabindex="-1"></a><span class="fu">set_reference_spectra</span>(clusters, processed<span class="sc">$</span>metadata)</span>
 <span id="cb6-45"><a href="#cb6-45" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 6</span></span>
 <span id="cb6-46"><a href="#cb6-46" tabindex="-1"></a><span class="co">#&gt;   name         membership cluster_size   SNR peaks is_reference</span></span>
-<span id="cb6-47"><a href="#cb6-47" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;             &lt;int&gt;        &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt;       </span></span>
+<span id="cb6-47"><a href="#cb6-47" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;             &lt;int&gt;        &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;lgl&gt;       </span></span>
 <span id="cb6-48"><a href="#cb6-48" tabindex="-1"></a><span class="co">#&gt; 1 species1_G2           1            4  5.09    21 FALSE       </span></span>
 <span id="cb6-49"><a href="#cb6-49" tabindex="-1"></a><span class="co">#&gt; 2 species2_E11          2            2  5.54    22 FALSE       </span></span>
 <span id="cb6-50"><a href="#cb6-50" tabindex="-1"></a><span class="co">#&gt; 3 species2_E12          2            2  5.63    23 TRUE        </span></span>
@@ -677,7 +679,7 @@ function to pick for instance spectra with the highest log score (using
 <div id="import-clusters-results-generated-by-spede" class="section level2">
 <h2>Import clusters results generated by SPeDE</h2>
 <p>Raw spectra can also be processed and clustered by another approach,
-named <a href="https://doi.org/10.1128/mSystems.00437-19"><code>SPeDE</code></a>,
+named <a href="https://github.com/LM-UGent/SPeDE"><code>SPeDE</code></a>,
 developed by Dumolin et al. (2019). The resulting dereplication step
 produces a comma separated table. The example below illustrates how to
 import this table into R to be consistent with the dereplication table

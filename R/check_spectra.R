@@ -5,6 +5,8 @@
 #' Assess whether all the spectra in the list are not empty, of the same length and correspond to profile data.
 #'
 #' @param spectra_list A list of [MALDIquant::MassSpectrum] objects
+#' @param tolerance A numeric indicating the accepted tolerance to the spectra length.
+#'  The default value is the machine numerical precision and is close to 1.5e-8.
 #'
 #' @return A list of logical vectors of length `spectra_list` indicating if the spectra are empty (`is_empty`), of an odd length (`is_outlier_length`) or not a profile spectra (`is_not_regular`).
 #'
@@ -23,21 +25,34 @@
 #' check_spectra(spectra_list)
 #' # The overall sanity can be checked with Reduce
 #' Reduce(any, check_spectra(spectra_list)) # Should be FALSE
-check_spectra <- function(spectra_list) {
+check_spectra <- function(spectra_list, tolerance = sqrt(.Machine$double.eps)) {
   # Checking spectra are not empty
-  empty_spectra <- sapply(spectra_list, MALDIquant::isEmpty)
+  empty_spectra <- vapply(spectra_list, MALDIquant::isEmpty, FUN.VALUE = logical(1))
   # Checking spectra are the same length
   ## Getting the most common length
-  common_length <- sapply(spectra_list, length) %>%
+  common_length <- lengths(spectra_list) %>%
     # gives length as character/names and occurrence as value
     table() %>%
     which.max() %>%
     # extract length
     names() %>%
     strtoi()
-  length_spectra <- sapply(spectra_list, length) == common_length
+  length_spectra <- vapply(lengths(spectra_list),
+    function(x) {
+      isTRUE(
+        all.equal.numeric(
+          target = common_length, x,
+          tolerance = tolerance, scale = 1
+        )
+      )
+    },
+    FUN.VALUE = logical(1)
+  )
   # Checking spectra are profile data
-  regular_spectra <- sapply(spectra_list, MALDIquant::isRegular)
+  regular_spectra <- vapply(spectra_list,
+    MALDIquant::isRegular,
+    FUN.VALUE = logical(1)
+  )
   # Summarise the checks
   checking_list <- list(
     is_empty = empty_spectra,
