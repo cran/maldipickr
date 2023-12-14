@@ -15,7 +15,8 @@
 #'
 #'
 #' @param spectra_list A list of [MALDIquant::MassSpectrum] objects.
-#' @param rds_prefix A character indicating the prefix for the `.RDS` output files to be written in the `processed` directory. By default, no prefix are given and thus no files are written.
+#' @param spectra_names A [tibble::tibble] (or [data.frame]) of sanitized spectra names by default from [get_spectra_names]. If provided manually, the column `sanitized_name` will be used to name the spectra.
+#' @param rds_prefix `r lifecycle::badge('deprecated')` Writing to disk as RDS is no longer supported. A character indicating the prefix for the `.RDS` output files to be written in the `processed` directory. By default, no prefix are given and thus no files are written.
 #'
 #' @return A named list of three objects:
 #' * `spectra`: a list the length of the spectra list of [MALDIquant::MassSpectrum] objects.
@@ -45,9 +46,18 @@
 #' # A detailed view of the metadata with the median signal-to-noise
 #' #  ratio (SNR) and the number of peaks
 #' processed$metadata
-process_spectra <- function(spectra_list, rds_prefix = NULL) {
+process_spectra <- function(spectra_list,
+                            spectra_names = get_spectra_names(spectra_list),
+                            rds_prefix = deprecated()) {
   # It returns the list and write it for future processing as an RDS file.
 
+  if (lifecycle::is_present(rds_prefix)) {
+    lifecycle::deprecate_warn(
+      when = "1.2.9000",
+      what = "process_spectra(rds_prefix)",
+      details = "Ability to write processed spectra to disk as RDS files will be dropped in next release."
+    )
+  }
   # 1. SQRT transformation
   # 2. Mass range trimming
   # 3. Signal smoothing
@@ -81,15 +91,15 @@ process_spectra <- function(spectra_list, rds_prefix = NULL) {
     "peaks" = lengths(snr_list)
   )
 
-
   # Add the spectra identifiers to all objects
-  rownames(metadata) <- names(spectra) <- names(peaks) <- sapply(spectra, function(x) {
-    # e.g., 230117_1750_1_B1
-    gsub(
-      "[-\\.]", "_",
-      MALDIquant::metaData(x)[["fullName"]]
+  if (!"sanitized_name" %in% colnames(spectra_names)) {
+    stop(
+      "Missing 'sanitized_name' column in the provided 'spectra_names' tibble!",
+      "\n\nTip: Use the `get_spectra_names()` for default and compliant names."
     )
-  })
+  }
+  rownames(metadata) <- names(spectra) <- names(peaks) <- spectra_names[["sanitized_name"]]
+
   # Aggregate the objects to a list
   processed_list <- list(
     "spectra" = spectra,
@@ -98,15 +108,5 @@ process_spectra <- function(spectra_list, rds_prefix = NULL) {
     "metadata" = tibble::as_tibble(metadata, rownames = "name")
   )
 
-  # Optional: writing objects to RDS files
-  if (!is.null(rds_prefix)) {
-    if (!dir.exists("processed")) {
-      dir.create("processed")
-    }
-    saveRDS(processed_list,
-      version = 2, compress = FALSE,
-      file = paste0("processed/", rds_prefix, ".RDS")
-    )
-  }
   return(processed_list)
 }
