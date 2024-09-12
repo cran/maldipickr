@@ -55,6 +55,14 @@ fm_all <- merge_processed_spectra(list(processed, processed, processed))
 #  35 peaks as columns
 dim(fm_all)
 
+# If using a list, names will be dropped and are not propagated to the matrix.
+#' \dontrun{
+#' fm_all <- merge_processed_spectra(
+#'  list("A" = processed, "B" = processed, "C" = processed))
+#' any(grepl("A|B|C", rownames(fm_all))) # FALSE
+#'  }
+#' 
+
 ## ----similarity, eval = FALSE-------------------------------------------------
 #  # A. Compute the similarity matrix on the transposed feature matrix
 #  #   using Pearson correlation coefficient

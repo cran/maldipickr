@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>maldipickr</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">maldipickr</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(maldipickr)</span></code></pre></div>
+<!-- WARNING - This vignette is generated by {fusen} from dev/maldipickr.Rmd: do not edit by hand -->
+<div id="quickstart" class="section level2">
+<h2>Quickstart</h2>
+<p>The <code>{maldipickr}</code> package helps microbiologists reduce
+duplicate/clonal bacteria from their cultures and eventually exclude
+previously selected bacteria. <code>{maldipickr}</code> achieve this
+feat by grouping together data from MALDI Biotyper and helps choose
+representative bacteria from each group using user-relevant metadata – a
+process known as <strong>cherry-picking</strong>.</p>
+<p><code>{maldipickr}</code> cherry-picks bacterial isolates with MALDI
+Biotyper:</p>
+<ul>
+<li><a href="#using-taxonomic-identification-report">using taxonomic
+identification report</a></li>
+<li><a href="#using-spectra-data">using spectra data</a></li>
+</ul>
+<div id="using-taxonomic-identification-report" class="section level3">
+<h3>Using taxonomic identification report</h3>
+<p>First make sure <code>{maldipickr}</code> is installed and loaded,
+alternatively <a href="https://clavellab.github.io/maldipickr/index.html#installation">follow
+the instructions to install the package</a>.</p>
+<p>Cherry-picking four isolates based on their taxonomic identification
+by the MALDI Biotyper is done in a few steps with
+<code>{maldipickr}</code>.</p>
+<div id="get-example-data" class="section level4">
+<h4>Get example data</h4>
+<p>We import an example Biotyper CSV report and glimpse at the
+table.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>report_tbl <span class="ot">&lt;-</span> <span class="fu">read_biotyper_report</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="fu">system.file</span>(<span class="st">&quot;biotyper_unknown.csv&quot;</span>, <span class="at">package =</span> <span class="st">&quot;maldipickr&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>report_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(name, bruker_species, bruker_log) <span class="sc">%&gt;%</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">name</th>
+<th align="left">bruker_species</th>
+<th align="right">bruker_log</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">unknown_isolate_1</td>
+<td align="left">not reliable identification</td>
+<td align="right">1.33</td>
+</tr>
+<tr class="even">
+<td align="left">unknown_isolate_2</td>
+<td align="left">not reliable identification</td>
+<td align="right">1.40</td>
+</tr>
+<tr class="odd">
+<td align="left">unknown_isolate_3</td>
+<td align="left">Faecalibacterium prausnitzii</td>
+<td align="right">1.96</td>
+</tr>
+<tr class="even">
+<td align="left">unknown_isolate_4</td>
+<td align="left">Faecalibacterium prausnitzii</td>
+<td align="right">2.07</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="delineate-clusters-and-cherry-pick" class="section level4">
+<h4>Delineate clusters and cherry-pick</h4>
+<p>Delineate clusters from the identifications after filtering the
+reliable ones and cherry-pick one representative spectra.</p>
+<p>Unreliable identifications based on the log-score are replaced by
+“not reliable identification”, but stay tuned as they do not represent
+the same isolates!</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>report_tbl <span class="ot">&lt;-</span> report_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>      <span class="at">bruker_species =</span> dplyr<span class="sc">::</span><span class="fu">if_else</span>(bruker_log <span class="sc">&gt;=</span> <span class="dv">2</span>, bruker_species,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>                                      <span class="st">&quot;not reliable identification&quot;</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  )</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(report_tbl)</span></code></pre></div>
+<table>
+<colgroup>
+<col width="12%" />
+<col width="8%" />
+<col width="6%" />
+<col width="10%" />
+<col width="20%" />
+<col width="9%" />
+<col width="25%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">name</th>
+<th align="left">sample_name</th>
+<th align="right">hit_rank</th>
+<th align="left">bruker_quality</th>
+<th align="left">bruker_species</th>
+<th align="right">bruker_taxid</th>
+<th align="left">bruker_hash</th>
+<th align="right">bruker_log</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">unknown_isolate_1</td>
+<td align="left">NA</td>
+<td align="right">1</td>
+<td align="left">-</td>
+<td align="left">not reliable identification</td>
+<td align="right">NA</td>
+<td align="left">3e920566-2734-43dd-85d0-66cf23a2d6ef</td>
+<td align="right">1.33</td>
+</tr>
+<tr class="even">
+<td align="left">unknown_isolate_2</td>
+<td align="left">NA</td>
+<td align="right">1</td>
+<td align="left">-</td>
+<td align="left">not reliable identification</td>
+<td align="right">NA</td>
+<td align="left">88a85875-eeb5-4858-966e-98a077325dc3</td>
+<td align="right">1.40</td>
+</tr>
+<tr class="odd">
+<td align="left">unknown_isolate_3</td>
+<td align="left">NA</td>
+<td align="right">1</td>
+<td align="left">+</td>
+<td align="left">not reliable identification</td>
+<td align="right">137408536</td>
+<td align="left">2d266f20-5428-428d-96ec-ddd40200794b</td>
+<td align="right">1.96</td>
+</tr>
+<tr class="even">
+<td align="left">unknown_isolate_4</td>
+<td align="left">NA</td>
+<td align="right">1</td>
+<td align="left">+++</td>
+<td align="left">Faecalibacterium prausnitzii</td>
+<td align="right">137408536</td>
+<td align="left">2d266f20-5428-428d-96ec-ddd40200794b</td>
+<td align="right">2.07</td>
+</tr>
+</tbody>
+</table>
+<p>The chosen ones are indicated by <code>to_pick</code> column.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>report_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">delineate_with_identification</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">pick_spectra</span>(report_tbl, <span class="at">criteria_column =</span> <span class="st">&quot;bruker_log&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(name, to_pick, bruker_species) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; Generating clusters from single report</span></span></code></pre></div>
+<table>
+<colgroup>
+<col width="10%" />
+<col width="4%" />
+<col width="16%" />
+<col width="6%" />
+<col width="7%" />
+<col width="6%" />
+<col width="5%" />
+<col width="8%" />
+<col width="7%" />
+<col width="21%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">name</th>
+<th align="left">to_pick</th>
+<th align="left">bruker_species</th>
+<th align="right">membership</th>
+<th align="right">cluster_size</th>
+<th align="left">sample_name</th>
+<th align="right">hit_rank</th>
+<th align="left">bruker_quality</th>
+<th align="right">bruker_taxid</th>
+<th align="left">bruker_hash</th>
+<th align="right">bruker_log</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">unknown_isolate_1</td>
+<td align="left">TRUE</td>
+<td align="left">not reliable identification</td>
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="left">NA</td>
+<td align="right">1</td>
+<td align="left">-</td>
+<td align="right">NA</td>
+<td align="left">3e920566-2734-43dd-85d0-66cf23a2d6ef</td>
+<td align="right">1.33</td>
+</tr>
+<tr class="even">
+<td align="left">unknown_isolate_2</td>
+<td align="left">TRUE</td>
+<td align="left">not reliable identification</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="left">NA</td>
+<td align="right">1</td>
+<td align="left">-</td>
+<td align="right">NA</td>
+<td align="left">88a85875-eeb5-4858-966e-98a077325dc3</td>
+<td align="right">1.40</td>
+</tr>
+<tr class="odd">
+<td align="left">unknown_isolate_3</td>
+<td align="left">TRUE</td>
+<td align="left">not reliable identification</td>
+<td align="right">4</td>
+<td align="right">1</td>
+<td align="left">NA</td>
+<td align="right">1</td>
+<td align="left">+</td>
+<td align="right">137408536</td>
+<td align="left">2d266f20-5428-428d-96ec-ddd40200794b</td>
+<td align="right">1.96</td>
+</tr>
+<tr class="even">
+<td align="left">unknown_isolate_4</td>
+<td align="left">TRUE</td>
+<td align="left">Faecalibacterium prausnitzii</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">NA</td>
+<td align="right">1</td>
+<td align="left">+++</td>
+<td align="right">137408536</td>
+<td align="left">2d266f20-5428-428d-96ec-ddd40200794b</td>
+<td align="right">2.07</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="using-spectra-data" class="section level3">
+<h3>Using spectra data</h3>
+<p>In parallel to taxonomic identification reports,
+<code>{maldipickr}</code> process spectra data. Make sure
+<code>{maldipickr}</code> is installed and loaded, alternatively <a href="https://clavellab.github.io/maldipickr/index.html#installation">follow
+the instructions to install the package</a>.</p>
+<p>Cherry-picking six isolates from three species based on their spectra
+data obtained from the MALDI Biotyper is done in a few steps with
+<code>{maldipickr}</code>.</p>
+<div id="get-example-data-1" class="section level4">
+<h4>Get example data</h4>
+<p>We set up the directory location of our example spectra data, but
+adjust for your requirements. We import and process the spectra which
+gives us a named list of three objects: spectra, peaks and metadata
+(more details in Value section of <code>process_spectra()</code>).</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>spectra_dir <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;toy-species-spectra&quot;</span>, <span class="at">package =</span> <span class="st">&quot;maldipickr&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>processed <span class="ot">&lt;-</span> spectra_dir <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="fu">import_biotyper_spectra</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="fu">process_spectra</span>()</span></code></pre></div>
+</div>
+<div id="delineate-clusters-and-cherry-pick-1" class="section level4">
+<h4>Delineate clusters and cherry-pick</h4>
+<p>Delineate spectra clusters using Cosine similarity and cherry-pick
+one representative spectra. The chosen ones are indicated by
+<code>to_pick</code> column.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>processed <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">list</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">merge_processed_spectra</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  coop<span class="sc">::</span><span class="fu">tcosine</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="fu">delineate_with_similarity</span>(<span class="at">threshold =</span> <span class="fl">0.92</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="fu">set_reference_spectra</span>(processed<span class="sc">$</span>metadata) <span class="sc">%&gt;%</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="fu">pick_spectra</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(name, to_pick) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<table>
+<colgroup>
+<col width="17%" />
+<col width="10%" />
+<col width="15%" />
+<col width="17%" />
+<col width="12%" />
+<col width="8%" />
+<col width="17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">name</th>
+<th align="left">to_pick</th>
+<th align="right">membership</th>
+<th align="right">cluster_size</th>
+<th align="right">SNR</th>
+<th align="right">peaks</th>
+<th align="left">is_reference</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">species1_G2</td>
+<td align="left">FALSE</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">5.089590</td>
+<td align="right">21</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="even">
+<td align="left">species2_E11</td>
+<td align="left">FALSE</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">5.543735</td>
+<td align="right">22</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="odd">
+<td align="left">species2_E12</td>
+<td align="left">TRUE</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">5.633540</td>
+<td align="right">23</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="even">
+<td align="left">species3_F7</td>
+<td align="left">FALSE</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">4.889949</td>
+<td align="right">26</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="odd">
+<td align="left">species3_F8</td>
+<td align="left">TRUE</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">5.558884</td>
+<td align="right">25</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="even">
+<td align="left">species3_F9</td>
+<td align="left">FALSE</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">5.398429</td>
+<td align="right">25</td>
+<td align="left">FALSE</td>
+</tr>
+</tbody>
+</table>
+<p>This provides only a brief overview of the features of
+<code>{maldipickr}</code>, browse the other vignettes to learn more
+about additional features.</p>
+</div>
+</div>
+</div>
+<div id="session-information" class="section level2">
+<h2>Session information</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt; R version 4.3.1 (2023-06-16)</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; Running under: Ubuntu 20.04.6 LTS</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; Matrix products: default</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.9.0 </span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.9.0</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; locale:</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt;  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt;  [3] LC_TIME=de_DE.UTF-8        LC_COLLATE=C              </span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt;  [5] LC_MONETARY=de_DE.UTF-8    LC_MESSAGES=en_US.UTF-8   </span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt;  [7] LC_PAPER=de_DE.UTF-8       LC_NAME=C                 </span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt;  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; [11] LC_MEASUREMENT=de_DE.UTF-8 LC_IDENTIFICATION=C       </span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt; time zone: Europe/Berlin</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; tzcode source: system (glibc)</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt; attached base packages:</span></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co">#&gt; other attached packages:</span></span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="co">#&gt; [1] maldipickr_1.3.1</span></span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a><span class="co">#&gt;  [1] vctrs_0.6.4              cli_3.6.1                knitr_1.48              </span></span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a><span class="co">#&gt;  [4] rlang_1.1.4              xfun_0.44                coop_0.6-3              </span></span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a><span class="co">#&gt;  [7] purrr_1.0.2              generics_0.1.3           jsonlite_1.8.7          </span></span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a><span class="co">#&gt; [10] glue_1.6.2               htmltools_0.5.6.1        sass_0.4.7              </span></span>
+<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a><span class="co">#&gt; [13] fansi_1.0.5              rmarkdown_2.28           tibble_3.2.1            </span></span>
+<span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a><span class="co">#&gt; [16] evaluate_0.22            jquerylib_0.1.4          fastmap_1.1.1           </span></span>
+<span id="cb7-34"><a href="#cb7-34" tabindex="-1"></a><span class="co">#&gt; [19] yaml_2.3.7               lifecycle_1.0.4          compiler_4.3.1          </span></span>
+<span id="cb7-35"><a href="#cb7-35" tabindex="-1"></a><span class="co">#&gt; [22] dplyr_1.1.4              pkgconfig_2.0.3          tidyr_1.3.0             </span></span>
+<span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a><span class="co">#&gt; [25] readBrukerFlexData_1.9.1 rstudioapi_0.15.0        digest_0.6.33           </span></span>
+<span id="cb7-37"><a href="#cb7-37" tabindex="-1"></a><span class="co">#&gt; [28] R6_2.5.1                 tidyselect_1.2.1         utf8_1.2.3              </span></span>
+<span id="cb7-38"><a href="#cb7-38" tabindex="-1"></a><span class="co">#&gt; [31] pillar_1.9.0             parallel_4.3.1           magrittr_2.0.3          </span></span>
+<span id="cb7-39"><a href="#cb7-39" tabindex="-1"></a><span class="co">#&gt; [34] bslib_0.5.1              withr_2.5.1              tools_4.3.1             </span></span>
+<span id="cb7-40"><a href="#cb7-40" tabindex="-1"></a><span class="co">#&gt; [37] MALDIquant_1.22.1        cachem_1.0.8</span></span></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
