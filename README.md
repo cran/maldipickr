@@ -3,14 +3,12 @@
 # maldipickr <a href="https://clavellab.github.io/maldipickr/"><img src="man/figures/logo.svg" align="right" height="139" alt="maldipickr website" /></a>
 
 <!-- badges: start -->
-
-[![CRAN
-status](https://www.r-pkg.org/badges/version/maldipickr.png)](https://CRAN.R-project.org/package=maldipickr)
-[![Project Status: Active – The project has reached a stable, usable
-state and is being actively
-developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![CRAN status](https://www.r-pkg.org/badges/version/maldipickr)](https://CRAN.R-project.org/package=maldipickr)
+[![CRAN checks](https://badges.cranchecks.info/worst/maldipickr.svg)](https://cran.r-project.org/web/checks/check_results_maldipickr.html)
 [![R-CMD-check](https://github.com/ClavelLab/maldipickr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ClavelLab/maldipickr/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/github/ClavelLab/maldipickr/branch/main/graph/badge.svg?token=JQABKDK2MB)](https://app.codecov.io/github/ClavelLab/maldipickr)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13759021.svg)](https://doi.org/10.5281/zenodo.13759021)
 <!-- badges: end -->
 
 - You are using the MALDI-TOF[^1] Biotyper to identify bacterial
@@ -22,12 +20,6 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 you dereplicate MALDI-TOF data and cherry-pick representative spectra of
 microbial isolates.
 
-> Check out the **graphical overview**.
-> `{maldipickr}` can use two approaches: 
-> from taxonomic identification reports (left) or from spectra data (right).
-> Click on the thumbnail for a bigger version.
->
-> <a href="https://raw.githubusercontent.com/ClavelLab/maldipickr/main/man/figures/maldipickr-data-flow-portrait.png"><img src="man/figures/maldipickr-data-flow-portrait-thumb.png" alt="Thumbnail of maldipickr graphical overview" /></a>
 
 ## Installation
 
@@ -69,6 +61,10 @@ through the package functions and showcase how to:
     simple to complex
     design](https://clavellab.github.io/maldipickr/articles/dereplicate-bruker-maldi-biotyper-spectra.html).
 
+<img width="2433" height="1701" alt="maldipickr-graphical-abstract" src="https://raw.githubusercontent.com/ClavelLab/maldipickr/main/man/figures/maldipickr-graphical-abstract.png"/>
+
+> Find a detailed version of the workflow diagram in [`man/figures/maldipickr-data-flow-portrait.png`](https://raw.githubusercontent.com/ClavelLab/maldipickr/main/man/figures/maldipickr-data-flow-portrait.png)
+
 ## Troubleshoot and Contribute
 
 **Troubleshoot** If something unexpected happened when using this
@@ -76,7 +72,7 @@ package, please first search the [current open or closed
 issues](https://github.com/ClavelLab/maldipickr/issues?q=is%3Aissue++)
 to look for similar problems. If you are the first, you are more than
 welcome to open a new issue using the “Bug report” template with a
-minimal [reprex](https://www.tidyverse.org/help/#reprex).
+minimal [reprex](https://tidyverse.org/help/#reprex).
 
 **Contribute** All contributions are welcome and the
 [`CONTRIBUTING.md`](https://clavellab.github.io/maldipickr/CONTRIBUTING.html)
@@ -109,6 +105,19 @@ Hyperlegible
 font](https://fonts.google.com/specimen/Atkinson+Hyperlegible/about)
 font and a color palette generated at
 [coolors.co](https://coolors.co/cf5c36-f0f0c9-555358).
+
+## Citation
+
+If you use our package, please consider citing our work:
+
+> Charlie Pauvert, David Wylensek, Selina Nüchtern, Thomas Clavel, maldipickr dereplicates microbial MALDI-TOF spectra to facilitate multiplexed isolation, _Bioinformatics Advances_, 2026; vbag171, https://doi.org/10.1093/bioadv/vbag171
+
+All the code for the analysis in the manuscript is available at [ClavelLab/maldipickr_manuscript](https://github.com/ClavelLab/maldipickr_manuscript) or at a CodeOcean capsule ([10.24433/CO.1202249.v2](https://doi.org/10.24433/CO.1202249.v2)) using data at [zenodo.org/10.5281/zenodo.15744631](https://doi.org/10.5281/zenodo.15744631).
+
+## Alternatives to maldipickr
+
+- [SPeDE](https://github.com/LM-UGent/SPeDE) is a Python/R based tool with good dereplication performance that creates OTU-like clusters of MALDI spectra.
+- [IDBac](https://idbac.org/) is an online tool for dereplication and identification that can include analysis of secondary metabolite production provided you have the data.
 
 ## References
 

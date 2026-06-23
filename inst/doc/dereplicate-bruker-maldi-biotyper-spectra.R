@@ -64,15 +64,15 @@ dim(fm_all)
 #' 
 
 ## ----similarity, eval = FALSE-------------------------------------------------
-#  # A. Compute the similarity matrix on the transposed feature matrix
-#  #   using Pearson correlation coefficient
-#  sim_matrix <- stats::cor(t(fm), method = "pearson")
-#  
-#  # B.1 Install the coop package
-#  # install.packages("coop")
-#  
-#  # B.2 Compute the similarity matrix on the rows of the feature matrix
-#  sim_matrix <- coop::tcosine(fm)
+# # A. Compute the similarity matrix on the transposed feature matrix
+# #   using Pearson correlation coefficient
+# sim_matrix <- stats::cor(t(fm), method = "pearson")
+# 
+# # B.1 Install the coop package
+# # install.packages("coop")
+# 
+# # B.2 Compute the similarity matrix on the rows of the feature matrix
+# sim_matrix <- coop::tcosine(fm)
 
 ## ----examples-delineate_with_similarity---------------------------------------
 # Toy similarity matrix between the six example spectra of
